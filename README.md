@@ -1,8 +1,8 @@
 # 🧠 AI-Powered Document to Mindmap
 
-![Homepage](./assets/Homepage.png)
+![Homepage](https://raw.githubusercontent.com/SaiDev1617/mindmap/main/assets/Homepage.png)
 
-![Project Banner](./assets/Banner.png)
+![Project Banner](https://raw.githubusercontent.com/SaiDev1617/mindmap/main/assets/Banner.png)
 
 Transform your documents into interactive mindmaps with AI-powered analysis and chat capabilities. Upload PDFs, generate structured mindmaps, and interact with your content through an intelligent RAG-based chat interface.
 

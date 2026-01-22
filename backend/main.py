@@ -772,6 +772,11 @@ async def chat(request: ChatRequest):
                 # Extract sources
                 sources = result.get("sources", [])
                 
+                print(f"[API] Returning response with {len(sources)} sources")
+                print(f"[API] Response preview: {assistant_message[:200]}...")
+                if sources:
+                    print(f"[API] First source index: {sources[0].get('index')}")
+                
                 return ChatResponse(
                     message=assistant_message,
                     role="assistant",

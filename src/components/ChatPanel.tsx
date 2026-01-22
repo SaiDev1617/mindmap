@@ -140,30 +140,67 @@ export default function ChatPanel() {
       );
     };
 
+    // Helper to process children (handles both strings and elements)
+    const processChildren = (children: any): any => {
+      return Children.map(children, (child) => {
+        if (typeof child === 'string') {
+          return <TextWithCitations value={child} />;
+        }
+        return child;
+      });
+    };
+
     return (
       <div className="markdown-content">
         <ReactMarkdown
           components={{
-            // Override text rendering to handle citations
+            // Override paragraph rendering
             p: ({ children, ...props }) => {
-              // Check if children contains text
               if (typeof children === 'string') {
-                return (
-                  <p {...props}>
-                    <TextWithCitations value={children} />
-                  </p>
-                );
+                return <p {...props}><TextWithCitations value={children} /></p>;
               }
-              // For complex children, process each text node
-              const processedChildren = Children.map(children, (child) => {
-                if (typeof child === 'string') {
-                  return <TextWithCitations value={child} />;
-                }
-                return child;
-              });
-              return <p {...props}>{processedChildren}</p>;
+              return <p {...props}>{processChildren(children)}</p>;
             },
-            // Also handle text nodes directly
+            // Override list item rendering
+            li: ({ children, ...props }) => {
+              if (typeof children === 'string') {
+                return <li {...props}><TextWithCitations value={children} /></li>;
+              }
+              return <li {...props}>{processChildren(children)}</li>;
+            },
+            // Override heading renderings
+            h1: ({ children, ...props }) => {
+              if (typeof children === 'string') {
+                return <h1 {...props}><TextWithCitations value={children} /></h1>;
+              }
+              return <h1 {...props}>{processChildren(children)}</h1>;
+            },
+            h2: ({ children, ...props }) => {
+              if (typeof children === 'string') {
+                return <h2 {...props}><TextWithCitations value={children} /></h2>;
+              }
+              return <h2 {...props}>{processChildren(children)}</h2>;
+            },
+            h3: ({ children, ...props }) => {
+              if (typeof children === 'string') {
+                return <h3 {...props}><TextWithCitations value={children} /></h3>;
+              }
+              return <h3 {...props}>{processChildren(children)}</h3>;
+            },
+            h4: ({ children, ...props }) => {
+              if (typeof children === 'string') {
+                return <h4 {...props}><TextWithCitations value={children} /></h4>;
+              }
+              return <h4 {...props}>{processChildren(children)}</h4>;
+            },
+            // Handle strong/bold text
+            strong: ({ children, ...props }) => {
+              if (typeof children === 'string') {
+                return <strong {...props}><TextWithCitations value={children} /></strong>;
+              }
+              return <strong {...props}>{processChildren(children)}</strong>;
+            },
+            // Handle text nodes directly
             text: ({ value }: any) => <TextWithCitations value={value} />,
           }}
         >

@@ -33,7 +33,7 @@ load_dotenv()
 # -----------------------------
 # Global model config (OpenAI only)
 # -----------------------------
-Settings.llm = OpenAI(model="gpt-4o-mini")  # change as needed
+Settings.llm = OpenAI(model="gpt-4.1")  # change as needed
 Settings.embed_model = OpenAIEmbedding(model="text-embedding-3-large")
 
 # Base directory for local storage (where files are uploaded)
@@ -370,8 +370,7 @@ def chat_with_document(doc_id: str, message: str, chat_history: list = None) -> 
         response_mode="compact",
     )
     
-    # Build contextualized query if there's history
-    contextualized_query = message
+    # Build contextualized query with citation instructions
     if chat_history and len(chat_history) > 1:
         # Create context from recent messages (last 3 exchanges)
         recent_history = chat_history[-6:-1] if len(chat_history) > 6 else chat_history[:-1]
@@ -393,6 +392,12 @@ Current question: {message}
 
 Please answer the current question, using inline citations like [1], [2] for any facts from the document."""
             print(f"[RAG] Using contextualized query with {len(recent_history)} previous messages")
+        else:
+            # No meaningful context, just add citation instruction
+            contextualized_query = f"{message}\n\nPlease use inline citations like [1], [2] for any facts from the document."
+    else:
+        # First message - add citation instruction
+        contextualized_query = f"{message}\n\nPlease use inline citations like [1], [2] for any facts from the document."
     
     response = citation_engine.query(contextualized_query)
     
@@ -409,6 +414,8 @@ Please answer the current question, using inline citations like [1], [2] for any
                 "score": float(node.score) if hasattr(node, 'score') and node.score is not None else None,
             })
         print(f"[RAG] Got response with {len(sources)} sources and inline citations")
+        print(f"[RAG] Response text preview: {response_text[:200]}...")
+        print(f"[RAG] First source preview: {sources[0]['text'][:100]}..." if sources else "[RAG] No sources")
     
     return {
         "response": response_text,

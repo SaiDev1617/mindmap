@@ -1,0 +1,41 @@
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+openai>=1.108.1
+httpx==0.27.0
+pydantic>=2.8.0
+python-multipart==0.0.6
+pdfplumber==0.11.0
+python-docx>=1.1.2,<2.0.0
+llama-parse==0.6.90
+python-dotenv==1.2.1
+llama-index-core==0.14.12
+docling==2.68.0
+
+#RAG requirements
+# Core LlamaIndex components
+llama-index-llms-openai>=0.5.1
+llama-index-embeddings-openai>=0.5.1
+llama-index-multi-modal-llms-openai>=0.6.2
+
+# File readers (PDF + DOCX + images, etc.)
+llama-index-readers-file>=0.5.6
+docx2txt>=0.8  # Required for reading .docx files in RAG pipeline
+
+# Vector store (local persistence with ChromaDB)
+chromadb>=1.0.0
+llama-index-vector-stores-chroma>=0.5.5
+
+# Advanced retrieval options (hybrid search)
+llama-index-retrievers-bm25>=0.6.5
+llama-index-packs-fusion-retriever>=0.5.1
+llama-index-packs-auto-merging-retriever>=0.5.1
+
+# Required for BM25 retriever
+pystemmer==2.2.0.3
+pillow==11.3.0
+
+# Token counting for chunked processing
+tiktoken>=0.8.0
+
+# Optional: stronger PDF parsing via PyMuPDF (recommended for messy PDFs)
+# PyMuPDF==1.26.7
